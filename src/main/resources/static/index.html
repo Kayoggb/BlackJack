@@ -8,38 +8,29 @@
 </head>
 <body>
 
-<!-- Geld oben rechts -->
 <div class="money">Geld: 500€</div>
 
 <h1 class="title">BLACKJACK</h1>
 
 <div class="game">
 
-    <!-- Dealer -->
     <div class="dealer">
         <h2>Dealer</h2>
-        <div class="cards">
-            <div class="card">🂠</div>
-            <div class="card">🂱</div>
-        </div>
+        <div class="cards" id="dealer-cards"></div>
     </div>
 
-    <!-- Spieler -->
     <div class="player">
         <h2>Du</h2>
-        <div class="cards">
-            <div class="card">🂡</div>
-            <div class="card">🂢</div>
-        </div>
+        <div class="cards" id="player-cards"></div>
     </div>
 
-    <!-- Buttons -->
     <div class="buttons">
         <button id="hit">Karte nehmen</button>
         <button id="stand">Halten</button>
+        <button id="restart">Neues Spiel</button>
     </div>
-
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
