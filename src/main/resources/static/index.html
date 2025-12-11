@@ -15,18 +15,22 @@
 <div class="game">
 
     <div class="dealer">
-        <h2>Dealer</h2>
+        <h2>Dealer <span id="dealer-value">(0)</span></h2>
         <div class="cards" id="dealer-cards"></div>
     </div>
 
     <div class="player">
-        <h2>Du</h2>
+        <h2>Du <span id="player-value">(0)</span></h2>
         <div class="cards" id="player-cards"></div>
     </div>
 
     <div class="buttons">
         <button id="hit">Karte nehmen</button>
         <button id="stand">Halten</button>
+
+        <!-- ✅ NEU: Double-Button -->
+        <button id="double">Verdoppeln</button>
+
         <button id="restart">Neues Spiel</button>
     </div>
 </div>

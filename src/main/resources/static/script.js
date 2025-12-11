@@ -21,8 +21,7 @@ function createDeck() {
                 rank: r,
                 value: values[r],
                 img: `cards/${s}${r}.jpg`
-
-        });
+            });
         }
     }
 
@@ -36,17 +35,14 @@ function drawCard() {
 function getHandValue(hand) {
     let sum = 0;
     let aces = 0;
-
     hand.forEach(card => {
         sum += card.value;
         if (card.rank === "A") aces++;
     });
-
     while (sum > 21 && aces > 0) {
         sum -= 10;
         aces--;
     }
-
     return sum;
 }
 
@@ -66,12 +62,14 @@ function updateUI() {
         dDiv.innerHTML += `<img class="card-img" src="${c.img}">`;
     });
 
+    document.getElementById("player-value").textContent = `(${getHandValue(player)})`;
+    document.getElementById("dealer-value").textContent = `(${getHandValue(dealer)})`;
+
     moneyDiv.textContent = `Geld: ${money}€`;
 }
 
 function startGame() {
     bet = parseInt(prompt("Wie viel möchtest du setzen?", 50));
-
     if (isNaN(bet) || bet <= 0 || bet > money) {
         alert("Ungültiger Einsatz!");
         return;
@@ -81,39 +79,68 @@ function startGame() {
     gameActive = true;
 
     createDeck();
-    player = [drawCard(), drawCard()];
-    dealer = [drawCard(), drawCard()];
-    updateUI();
+    player = [];
+    dealer = [];
 
-    document.getElementById("hit").disabled = false;
-    document.getElementById("stand").disabled = false;
+    let delay = 0;
+    for (let i = 0; i < 2; i++) {
+        setTimeout(() => {
+            player.push(drawCard());
+            updateUI();
+        }, delay);
+        delay += 400;
+    }
+
+    for (let i = 0; i < 2; i++) {
+        setTimeout(() => {
+            dealer.push(drawCard());
+            updateUI();
+        }, delay);
+        delay += 400;
+    }
+
+    setTimeout(() => {
+        document.getElementById("hit").disabled = false;
+        document.getElementById("stand").disabled = false;
+        document.getElementById("double").disabled = false;
+    }, delay + 100);
 }
 
 function finishGame() {
     const playerValue = getHandValue(player);
-    const dealerValue = getHandValue(dealer);
 
-    if (playerValue > 21) {
-        alert("Du hast verloren!");
-    }
-    else if (dealerValue > 21) {
-        money += bet * 2;
-        alert("Dealer bust! Du gewinnst!");
-    }
-    else if (playerValue > dealerValue) {
-        money += bet * 2;
-        alert("Du gewinnst!");
-    }
-    else if (playerValue === dealerValue) {
-        money += bet;
-        alert("Unentschieden!");
-    }
-    else {
-        alert("Du hast verloren!");
-    }
+    document.getElementById("hit").disabled = true;
+    document.getElementById("stand").disabled = true;
 
-    gameActive = false;
-    updateUI();
+    let dealerTurn = () => {
+        const dealerValue = getHandValue(dealer);
+        if (dealerValue < 17) {
+            dealer.push(drawCard());
+            updateUI();
+            setTimeout(dealerTurn, 400);
+        } else {
+            setTimeout(() => {
+                const dealerFinal = getHandValue(dealer);
+
+                if (playerValue > 21) {
+                    alert("Du hast verloren!");
+                } else if (dealerFinal > 21 || playerValue > dealerFinal) {
+                    money += bet * 2;
+                    alert("Du gewinnst!");
+                } else if (playerValue === dealerFinal) {
+                    money += bet;
+                    alert("Unentschieden!");
+                } else {
+                    alert("Du hast verloren!");
+                }
+
+                gameActive = false;
+                updateUI();
+            }, 400);
+        }
+    };
+
+    dealerTurn();
 }
 
 document.getElementById("hit").onclick = () => {
@@ -122,25 +149,47 @@ document.getElementById("hit").onclick = () => {
     player.push(drawCard());
     updateUI();
 
-    if (getHandValue(player) > 21) {
-        document.getElementById("hit").disabled = true;
-        document.getElementById("stand").disabled = true;
-        finishGame();
-    }
+    setTimeout(() => {
+        if (getHandValue(player) > 21) {
+            document.getElementById("hit").disabled = true;
+            document.getElementById("stand").disabled = true;
+            finishGame();
+        }
+    }, 400);
 };
 
 document.getElementById("stand").onclick = () => {
     if (!gameActive) return;
 
-    while (getHandValue(dealer) < 17) {
-        dealer.push(drawCard());
+    document.getElementById("hit").disabled = true;
+    document.getElementById("stand").disabled = true;
+
+    setTimeout(finishGame, 400);
+};
+
+document.getElementById("double").onclick = () => {
+    if (!gameActive) return;
+
+    if (player.length !== 2) {
+        alert("Du kannst nur mit 2 Startkarten verdoppeln!");
+        return;
     }
+
+    if (money < bet) {
+        alert("Nicht genug Geld zum Verdoppeln!");
+        return;
+    }
+
+    money -= bet;
+    bet *= 2;
+
+    player.push(drawCard());
+    updateUI();
 
     document.getElementById("hit").disabled = true;
     document.getElementById("stand").disabled = true;
 
-    updateUI();
-    finishGame();
+    setTimeout(finishGame, 500);
 };
 
 document.getElementById("restart").onclick = startGame;
