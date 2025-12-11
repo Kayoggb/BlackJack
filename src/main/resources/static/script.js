@@ -65,7 +65,7 @@ function updateUI() {
     document.getElementById("player-value").textContent = `(${getHandValue(player)})`;
     document.getElementById("dealer-value").textContent = `(${getHandValue(dealer)})`;
 
-    moneyDiv.textContent = `Geld: ${money}€`;
+    moneyDiv.textContent = `Geld: ${money} $`;
 }
 
 function startGame() {
@@ -153,6 +153,7 @@ document.getElementById("hit").onclick = () => {
         if (getHandValue(player) > 21) {
             document.getElementById("hit").disabled = true;
             document.getElementById("stand").disabled = true;
+            document.getElementById("double").disabled = true;
             finishGame();
         }
     }, 400);
@@ -163,6 +164,7 @@ document.getElementById("stand").onclick = () => {
 
     document.getElementById("hit").disabled = true;
     document.getElementById("stand").disabled = true;
+    document.getElementById("double").disabled = true;
 
     setTimeout(finishGame, 400);
 };
@@ -188,6 +190,7 @@ document.getElementById("double").onclick = () => {
 
     document.getElementById("hit").disabled = true;
     document.getElementById("stand").disabled = true;
+    document.getElementById("double").disabled = true;
 
     setTimeout(finishGame, 500);
 };
