@@ -8,30 +8,39 @@
 </head>
 <body>
 
-<div class="money">Geld: 500$</div>
+<div class="casino-room">
+    <div class="table-container">
+        <div class="table-rail"></div>
+        
+        <div class="table-surface">
+            <div class="dealer-area">
+                <div class="area-label">DEALER</div>
+                <div class="value-display" id="dealer-value">0</div>
+                <div class="cards" id="dealer-cards"></div>
+            </div>
 
-<h1 class="title">BLACKJACK</h1>
+            <div class="table-center">
+                <div class="table-logo">BLACKJACK</div>
+            </div>
 
-<div class="game">
-
-    <div class="dealer">
-        <h2>Dealer <span id="dealer-value">(0)</span></h2>
-        <div class="cards" id="dealer-cards"></div>
+            <div class="player-area">
+                <div class="area-label">SPIELER</div>
+                <div class="value-display" id="player-value">0</div>
+                <div class="cards" id="player-cards"></div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="hit">Karte nehmen</button>
+            <button id="stand">Halten</button>
+            <button id="double">Verdoppeln</button>
+            <button id="restart">Neues Spiel</button>
+        </div>
     </div>
 
-    <div class="player">
-        <h2>Du <span id="player-value">(0)</span></h2>
-        <div class="cards" id="player-cards"></div>
-    </div>
-
-    <div class="buttons">
-        <button id="hit">Karte nehmen</button>
-        <button id="stand">Halten</button>
-
-        <!-- ✅ NEU: Double-Button -->
-        <button id="double">Verdoppeln</button>
-
-        <button id="restart">Neues Spiel</button>
+    <div class="money-display">
+        <span class="money-amount" id="money-amount">500</span>
+        <span class="money-currency">$</span>
     </div>
 </div>
 

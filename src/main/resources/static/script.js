@@ -49,7 +49,7 @@ function getHandValue(hand) {
 function updateUI() {
     const pDiv = document.getElementById("player-cards");
     const dDiv = document.getElementById("dealer-cards");
-    const moneyDiv = document.querySelector(".money");
+    const moneyDiv = document.getElementById("money-amount");
 
     pDiv.innerHTML = "";
     dDiv.innerHTML = "";
@@ -62,10 +62,10 @@ function updateUI() {
         dDiv.innerHTML += `<img class="card-img" src="${c.img}">`;
     });
 
-    document.getElementById("player-value").textContent = `(${getHandValue(player)})`;
-    document.getElementById("dealer-value").textContent = `(${getHandValue(dealer)})`;
+    document.getElementById("player-value").textContent = getHandValue(player);
+    document.getElementById("dealer-value").textContent = getHandValue(dealer);
 
-    moneyDiv.textContent = `Geld: ${money} $`;
+    moneyDiv.textContent = money;
 }
 
 function startGame() {
